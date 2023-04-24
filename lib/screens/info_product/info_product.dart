@@ -29,6 +29,7 @@ class _InfoProductScreenState extends State<InfoProductScreen> {
               },
               icon: const Icon(Icons.arrow_back)),
         ),
+        ///abrka dabra
         body: Column(
           children: [
             SizedBox(
