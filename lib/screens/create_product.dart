@@ -24,25 +24,32 @@ class CreateProduct extends StatefulWidget {
 class _CreateProductState extends State<CreateProduct> {
   File? imageFile;
   final PickImage pickImage = PickImage();
-  String? dropDownValue;
-  List<String?> items = [
+  String? typeItemValue;
+  String? pcItemValue;
+  List<String?> typeItems = [
     'Food products',
     'Water products',
     'Techniques',
     'Cereal products',
     'Household items',
   ];
+  List<String?> pcItem = [
+    'kg',
+    'liter',
+    'gramm',
+    'piece',
+  ];
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController costController = TextEditingController();
-  final TextEditingController countController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
 
   @override
   void didChangeDependencies() {
     if (widget.product != null) {
       nameController.text = widget.product!.name!;
       costController.text = widget.product!.cost!;
-      countController.text = widget.product!.count!;
+      numberController.text = widget.product!.number!;
     }
     super.didChangeDependencies();
   }
@@ -147,15 +154,6 @@ class _CreateProductState extends State<CreateProduct> {
                 ),
                 const SizedBox(height: 15),
                 const Text(
-                  'Create a number',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                ),
-                const SizedBox(height: 5),
-                InputTextField(
-                    textEditingController: countController,
-                    hinText: 'Enter the number'),
-                const SizedBox(height: 15),
-                const Text(
                   'Create a cost',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
@@ -165,6 +163,34 @@ class _CreateProductState extends State<CreateProduct> {
                     hinText: 'Enter the cost'),
                 const SizedBox(height: 15),
                 const Text(
+                  'Create a number',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 5),
+                InputTextField(
+                    textEditingController: numberController,
+                    hinText: 'Enter the number'),
+                const SizedBox(height: 15),
+                const Text(
+                  'Select an amount',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                ),
+                const SizedBox(height: 5),
+                DropdownButton<String>(
+                    onTap: () {},
+                    hint: const Text('Select piece'),
+                    value: pcItemValue,
+                    items: pcItem.map((String? value) {
+                      return DropdownMenuItem(
+                          value: value, child: Text(value!));
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        pcItemValue = value;
+                      });
+                    }),
+                const SizedBox(height: 15),
+                const Text(
                   'Create type',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
@@ -172,14 +198,14 @@ class _CreateProductState extends State<CreateProduct> {
                 DropdownButton<String>(
                     onTap: () {},
                     hint: const Text('Select type'),
-                    value: dropDownValue,
-                    items: items.map((String? value) {
+                    value: typeItemValue,
+                    items: typeItems.map((String? value) {
                       return DropdownMenuItem(
                           value: value, child: Text(value!));
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        dropDownValue = value;
+                        typeItemValue = value;
                       });
                     }),
                 const SizedBox(height: 20),
@@ -191,29 +217,33 @@ class _CreateProductState extends State<CreateProduct> {
                         onPressed: () async {
                           final name = nameController.value.text;
                           final cost = costController.value.text;
-                          final count = countController.value.text;
+                          final number = numberController.value.text;
                           final image = imageFile;
 
                           if (name.isEmpty ||
                               cost.isEmpty ||
-                              count.isEmpty ||
-                              image == null) {
+                              image == null ||
+                              number.isEmpty) {
                             return;
                           }
 
                           final ProductModel model = ProductModel(
                               cost: cost,
-                              count: count,
+                              count: pcItemValue,
                               id: const Uuid().v1(),
                               name: name,
+                              number: number,
                               imageUrl: image.path,
-                              type: dropDownValue);
+                              type: typeItemValue);
 
                           if (widget.product == null) {
                             await DbService.addProduct(model);
                             print(
                                 'Model qoshildiiii ------------ ${model.imageUrl}');
-                          } else {
+                          } else if (widget.product != null ||
+                              widget.product!.imageUrl != null ||
+                              widget.product!.count != null ||
+                              widget.product!.type != null) {
                             await DbService.updateProduct(model);
                           }
 

@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:inware_task_app/db_helper/db_service.dart';
 import 'package:inware_task_app/model/product_model.dart';
@@ -16,7 +14,7 @@ class CerealProducts extends StatefulWidget {
 class _CerealProductsState extends State<CerealProducts> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Cereal products'),
         centerTitle: true,
@@ -36,7 +34,7 @@ class _CerealProductsState extends State<CerealProducts> {
             } else if (snapshot.hasData) {
               if (snapshot.data != null) {
                 return SizedBox(
-                  height:690,
+                  height: 690,
                   width: double.infinity,
                   child: ListView.builder(
                       shrinkWrap: true,
@@ -44,7 +42,8 @@ class _CerealProductsState extends State<CerealProducts> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final data = snapshot.data![index];
-                        return data.type == "Cereal products"
+                        return data.type == "Cereal products" &&
+                                data.count == 'kg'
                             ? ProductCard(
                                 product: snapshot.data![index],
                                 onPressedEdit: () async {
@@ -73,6 +72,6 @@ class _CerealProductsState extends State<CerealProducts> {
             }
             return const SizedBox.shrink();
           }),
-    );;
+    );
   }
 }

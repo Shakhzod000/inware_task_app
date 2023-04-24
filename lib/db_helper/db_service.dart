@@ -3,6 +3,7 @@ import 'package:inware_task_app/model/product_model.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
+import 'package:uuid/uuid.dart';
 
 class DbService {
   static const int _version = 4;
@@ -17,12 +18,14 @@ class DbService {
       name TEXT NOT NULL,
       imageUrl TEXT,
       type TEXT NOT NULL,
+      number TEXT NOT NULL,
       cost TEXT NOT NULL,
       count TEXT NOT NULL)'''),
       version: _version,
     );
   }
-///aaaa
+
+  ///aaaa
   static Future<int?> addProduct(ProductModel product) async {
     try {
       final db = await _getDbService();
@@ -40,8 +43,8 @@ class DbService {
     try {
       final db = await _getDbService();
       return await db.update('ProductModel', product.toJson(),
-          where: 'id = ?',
-          whereArgs: [product.id],
+          where: "id = ?",
+          whereArgs: [product.id == const Uuid().v1()],
           conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e) {
       if (kDebugMode) {

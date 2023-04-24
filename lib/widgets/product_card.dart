@@ -63,13 +63,13 @@ class ProductCard extends StatelessWidget {
                       topRight: Radius.circular(15),
                       bottomRight: Radius.circular(15)),
                   color: Colors.white),
-              margin: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+              margin: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                      height: 100,
-                      width: 100,
+                      height: 90,
+                      width: 90,
                       child: Image.file(
                         File(
                           product!.imageUrl ?? "",
@@ -77,14 +77,16 @@ class ProductCard extends StatelessWidget {
                         fit: BoxFit.cover,
                       )),
                   Padding(
-                    padding: const EdgeInsets.only(right: 50),
+                    padding: const EdgeInsets.only(
+                      right: 50,
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           product!.name!,
                           style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 22,
                               color: Colors.blue[700],
                               fontWeight: FontWeight.w600),
                         ),
@@ -102,12 +104,24 @@ class ProductCard extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 20, top: 15),
                     child: Column(
                       children: [
-                        Text(
-                          product!.count!,
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF2e2e2e)),
+                        Row(
+                          children: [
+                            Text(
+                              product!.number!,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF2e2e2e)),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              product!.count!,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(0xFF2e2e2e)),
+                            ),
+                          ],
                         ),
                         const SizedBox(
                           height: 20,
