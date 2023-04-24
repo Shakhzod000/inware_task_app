@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inware_task_app/db_helper/db_service.dart';
 import 'package:inware_task_app/model/product_model.dart';
+import 'package:inware_task_app/screens/home_screen.dart';
 import 'package:inware_task_app/widgets/input_textfield.dart';
 
 class CreateProduct extends StatelessWidget {
@@ -88,7 +89,7 @@ class CreateProduct extends StatelessWidget {
                             count.isEmpty) {
                           return;
                         }
-                          
+
                         final ProductModel model = ProductModel(
                             cost: cost,
                             count: count,
@@ -102,8 +103,11 @@ class CreateProduct extends StatelessWidget {
                         } else {
                           await DbService.updateProduct(model);
                         }
-                         // ignore: use_build_context_synchronously
-                         Navigator.pop(context);
+                        // ignore: use_build_context_synchronously
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (_) => const HomeScreen()),
+                            (route) => false);
                       },
                       child: Text(
                           product == null ? 'Create product' : 'Edit Product')),
