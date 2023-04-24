@@ -16,7 +16,6 @@ packages:
       sha256: "6cfb5af12253eaf2b368f07bacc5a80d1301a071c73360d746b7f2e32d762c66"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.0"
   cached_network_image:
     dependency: "direct main"
@@ -39,9 +38,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-=======
-    version: "2.1.1"
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
   characters:
     dependency: transitive
     description:
@@ -65,7 +61,6 @@ packages:
       sha256: cfc915e6923fe5ce6e153b0723c753045de46de1b4d63771530504004a45fae0
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "1.16.0"
   cross_file:
     dependency: transitive
@@ -81,9 +76,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-=======
-    version: "1.17.0"
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -161,7 +153,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -216,22 +207,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.6.3"
-=======
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
   js:
     dependency: transitive
     description:
       name: js
-<<<<<<< HEAD
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.4"
-=======
-      sha256: "5528c2f391ededb7775ec1daa69e65a2d61276f7552de2b5f7b8d34ee9fd4ab7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.5"
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
   lints:
     dependency: transitive
     description:
@@ -432,7 +414,6 @@ packages:
       sha256: ad540f65f92caa91bf21dfc8ffb8c589d6e4dc0c2267818b4cc2792857706206
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "0.4.12"
   typed_data:
     dependency: transitive
@@ -448,9 +429,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.7"
-=======
-    version: "0.4.16"
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
   vector_math:
     dependency: transitive
     description:
@@ -458,7 +436,6 @@ packages:
       sha256: "80b3257d1492ce4d091729e3a67a60407d227c27241d6927be0130c98e741803"
       url: "https://pub.dev"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.2"
   win32:
     dependency: transitive
@@ -474,9 +451,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
-=======
-    version: "2.1.4"
->>>>>>> 89ed3b650248a47b47a30ae3bf58c431f27b6e4b
 sdks:
   dart: ">=2.18.6 <3.0.0"
   flutter: ">=3.3.0"
