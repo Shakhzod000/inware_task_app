@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inware_task_app/db_helper/db_service.dart';
 import 'package:inware_task_app/model/product_model.dart';
-import 'package:inware_task_app/widgets/search_card.dart';
+import 'package:inware_task_app/screens/home_screen.dart';
+import 'package:inware_task_app/screens/info_product/info_product.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,63 +15,103 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final List<ProductModel> productModel = <ProductModel>[];
-  final List<ProductModel> productDisplay = <ProductModel>[];
-  final ProductModel? product = ProductModel();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 65,
-        title: Container(
-          padding: const EdgeInsets.only(left: 5),
-          height: 40,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10), color: Colors.white),
-          child: TextField(
-            onChanged: (value) {
-              setState(() {
-                productDisplay.addAll(productModel
-                    .where((element) =>
-                        product!.name!.toLowerCase().startsWith(value))
-                    .toList());
-              });
-            },
-            decoration: InputDecoration(
-                suffixIcon: IconButton(
-                    onPressed: () {}, icon: const Icon(CupertinoIcons.search)),
-                hintText: 'Search...',
-                border:
-                    const UnderlineInputBorder(borderSide: BorderSide.none)),
-          ),
-        ),
-      ),
-      body: FutureBuilder<List<ProductModel>?>(
-        future: DbService.getAllProduct(),
-        builder: (context, AsyncSnapshot<List<ProductModel>?> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text('Has error'),
-            );
-          } else if (snapshot.hasData) {
-            if (snapshot.data != null) {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) => SearchCard(
-                        product: snapshot.data![index],
-                      ));
+        appBar: AppBar(
+            leading: IconButton(
+                iconSize: 25,
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (_) => const HomeScreen()),
+                      (route) => false);
+                },
+                icon: const Icon(Icons.arrow_back)),
+            title: const Text('AutoComplete search')),
+        backgroundColor: const Color(0xFFf2f2f2),
+        body: FutureBuilder<List<ProductModel>?>(
+          future: DbService.getAllProduct(),
+          builder: (context, AsyncSnapshot<List<ProductModel>?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.hasError) {
+              return const Center(
+                child: Text('Has error'),
+              );
+            } else if (snapshot.hasData) {
+              if (snapshot.data != null) {
+                return SafeArea(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      Autocomplete<ProductModel>(
+                        optionsBuilder: (TextEditingValue textValue) {
+                          return snapshot.data!
+                              .where((e) => e.name!
+                                  .toLowerCase()
+                                  .contains(textValue.text.toLowerCase()))
+                              .toList();
+                        },
+                        optionsMaxHeight: 100,
+                        onSelected: (value) => value.name,
+                        displayStringForOption: (ProductModel model) =>
+                            model.name!,
+                        fieldViewBuilder: (context, textEditingController,
+                                focusNode, onFieldSubmitted) =>
+                            Padding(
+                          padding: const EdgeInsets.only(left: 15, right: 15),
+                          child: TextField(
+                            controller: textEditingController,
+                            focusNode: focusNode,
+                            decoration: const InputDecoration(
+                                prefixIcon: Icon(CupertinoIcons.search),
+                                hintText: 'Search...',
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 2, color: Colors.black))),
+                          ),
+                        ),
+                        optionsViewBuilder: (context, onSelected,
+                                Iterable<ProductModel> dataList) =>
+                            Material(
+                          elevation: 4,
+                          child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: dataList.length,
+                              itemBuilder: (context, index) {
+                                final data = snapshot.data!.elementAt(index);
+                                return ListTile(
+                                  onTap: () {
+                                    onSelected(data);
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (_) => InfoProductScreen(
+                                                  product: data,
+                                                )),
+                                        (route) => false);
+                                  },
+                                  leading:
+                                      Image.file(File(data.imageUrl ?? "")),
+                                  title: Text(
+                                    data.name!,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  subtitle: Text(data.type!),
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
             }
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-    );
+            return const SizedBox.shrink();
+          },
+        ));
   }
 }

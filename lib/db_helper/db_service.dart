@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DbService {
-  static const int _version = 1;
+  static const int _version = 4;
   static const String _dbName = 'Product.db';
 
   static Future<Database> _getDbService() async {
@@ -13,8 +13,9 @@ class DbService {
       join(await getDatabasesPath(), _dbName),
       onCreate: (db, version) async =>
           await db.execute('''CREATE TABLE ProductModel(
-      id INTEGER PRIMARY KEY,
+      id TEXT PRIMARY KEY,
       name TEXT NOT NULL,
+      imageUrl TEXT,
       type TEXT NOT NULL,
       cost TEXT NOT NULL,
       count TEXT NOT NULL)'''),

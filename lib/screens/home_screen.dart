@@ -2,8 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inware_task_app/db_helper/db_service.dart';
 import 'package:inware_task_app/model/product_model.dart';
+import 'package:inware_task_app/screens/categoty_widgets/cereal_products.dart';
+import 'package:inware_task_app/screens/categoty_widgets/home_products.dart';
+import 'package:inware_task_app/screens/categoty_widgets/food_products.dart';
+import 'package:inware_task_app/screens/categoty_widgets/technical_products.dart';
+import 'package:inware_task_app/screens/categoty_widgets/waters_products.dart';
 import 'package:inware_task_app/screens/create_product.dart';
 import 'package:inware_task_app/screens/search_screen.dart';
+import 'package:inware_task_app/widgets/category_card.dart';
 import 'package:inware_task_app/widgets/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -46,48 +52,105 @@ class _HomeScreenState extends State<HomeScreen> {
                 MaterialPageRoute(builder: (context) => const CreateProduct()));
           },
           child: const Icon(Icons.add)),
-      body: FutureBuilder<List<ProductModel>?>(
-          future: DbService.getAllProduct(),
-          builder: (context, AsyncSnapshot<List<ProductModel>?> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return const Center(
-                child: Text(' Has error'),
-              );
-            } else if (snapshot.hasData) {
-              if (snapshot.data != null) {
-                return ListView.builder(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(top: 20),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) => ProductCard(
-                          product: snapshot.data![index],
-                          onPressedEdit: () async {
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CreateProduct(
-                                          product: snapshot.data![index],
-                                        )));
-                            setState(() {});
-                          },
-                          onpressedDelete: () async {
-                            await DbService.deleteProduct(
-                              snapshot.data![index],
-                            );
-                            setState(() {});
-                          },
-                        ));
-              }
-              return const Center(
-                child: Text('Has not data'),
-              );
-            }
-            return const SizedBox.shrink();
-          }),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 50,
+              width: double.infinity,
+              child: ListView(
+                padding: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                scrollDirection: Axis.horizontal,
+                children: [
+                  CategoryCard(
+                    text: 'Food products',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const FoodProducts()));
+                    },
+                  ),
+                  CategoryCard(
+                    text: 'Water products',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const WatersProducts()));
+                    },
+                  ),
+                  CategoryCard(
+                    text: 'Techniques',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const TechnicalProducts()));
+                    },
+                  ),
+                  CategoryCard(
+                    text: 'Household items',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const HomeProducts()));
+                    },
+                  ),
+                  CategoryCard(
+                    text: 'Cereal products',
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const CerealProducts()));
+                    },
+                  )
+                ],
+              ),
+            ),
+            FutureBuilder<List<ProductModel>?>(
+                future: DbService.getAllProduct(),
+                builder:
+                    (context, AsyncSnapshot<List<ProductModel>?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text(' Has error'),
+                    );
+                  } else if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      return SizedBox(
+                        height: 638,
+                        width: double.infinity,
+                        child: ListView.builder(
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.only(top: 20),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) => ProductCard(
+                                  product: snapshot.data![index],
+                                  onPressedEdit: () async {
+                                    await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => CreateProduct(
+                                                  product:
+                                                      snapshot.data![index],
+                                                )));
+                                    setState(() {});
+                                  },
+                                  onpressedDelete: () async {
+                                    await DbService.deleteProduct(
+                                      snapshot.data![index],
+                                    );
+                                    setState(() {});
+                                  },
+                                )),
+                      );
+                    }
+                    return const Center(
+                      child: Text('Has not data'),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+          ],
+        ),
+      ),
     );
   }
 }

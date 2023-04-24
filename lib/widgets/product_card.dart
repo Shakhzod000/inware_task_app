@@ -1,13 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:inware_task_app/model/product_model.dart';
+import 'package:inware_task_app/screens/info_product/info_product.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel? product;
   final VoidCallback? onpressedDelete;
   final VoidCallback? onPressedEdit;
-  const  ProductCard(
+  const ProductCard(
       {this.product, this.onPressedEdit, this.onpressedDelete, super.key});
 
   @override
@@ -43,58 +46,93 @@ class ProductCard extends StatelessWidget {
             ),
           ))
         ]),
-        child: Container(
-            decoration: BoxDecoration(boxShadow: const [
-              BoxShadow(color: Color(0xff8d8d8d), offset: Offset(3.5, 3.5))
-            ], borderRadius: BorderRadius.circular(15), color: Colors.white),
-            margin: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      product!.type!,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25, top: 10),
-                      child: Text(
-                        product!.name!,
-                        style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.blue[400]),
-                      ),
-                    ),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => InfoProductScreen(
+                      product: product,
+                    )));
+          },
+          child: Container(
+              decoration: const BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xff8d8d8d), offset: Offset(3.5, 3.5))
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20, top: 15),
-                  child: Column(
-                    children: [
-                      Text(
-                        product!.count!,
-                        style: const TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "${product!.cost} \$",
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.green[300]),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
+                  color: Colors.white),
+              margin: const EdgeInsets.only(bottom: 15, left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.file(
+                        File(
+                          product!.imageUrl ?? "",
+                        ),
+                        fit: BoxFit.cover,
+                      )),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 50),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product!.name!,
+                          style: TextStyle(
+                              fontSize: 24,
+                              color: Colors.blue[700],
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          product!.type!,
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey),
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
-            )));
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20, top: 15),
+                    child: Column(
+                      children: [
+                        Text(
+                          product!.count!,
+                          style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF2e2e2e)),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Card(
+                          color: Colors.green[600],
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: Center(
+                              child: Text(
+                                "${product!.cost} \$",
+                                style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    ),
+                  )
+                ],
+              )),
+        ));
   }
 }
