@@ -22,7 +22,7 @@ class DbService {
       version: _version,
     );
   }
-
+///aaaa
   static Future<int?> addProduct(ProductModel product) async {
     try {
       final db = await _getDbService();
