@@ -43,6 +43,8 @@ class _CreateProductState extends State<CreateProduct> {
       nameController.text = widget.product!.name!;
       costController.text = widget.product!.cost!;
       numberController.text = widget.product!.number!;
+      typeController.text = widget.product!.type!;
+      pcItemValue = widget.product!.count!;
     }
     super.didChangeDependencies();
   }
@@ -203,7 +205,7 @@ class _CreateProductState extends State<CreateProduct> {
                           final cost = costController.value.text;
                           final number = numberController.value.text;
                           final image = imageFile;
-                          final type = typeController.text;
+                          final type = typeController.value.text;
 
                           if (name.isEmpty ||
                               cost.isEmpty ||

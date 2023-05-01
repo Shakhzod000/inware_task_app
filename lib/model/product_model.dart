@@ -1,3 +1,4 @@
+
 class ProductModel {
   String? name;
   String? type;
