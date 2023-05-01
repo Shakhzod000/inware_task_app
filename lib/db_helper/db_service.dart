@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:inware_task_app/model/product_model.dart';
 import 'package:sqflite/sqflite.dart';
@@ -88,5 +86,4 @@ class DbService {
     }
     return null;
   }
-
 }
