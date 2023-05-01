@@ -89,17 +89,4 @@ class DbService {
     return null;
   }
 
-  static Future<ProductModel?> getProduct(ProductModel productModel) async {
-    try {
-      final db = await _getDbService();
-      final data = await db.query('ProductModel',
-      where: 'type = ?',
-      whereArgs: [productModel.type],
-      
-      );
-      
-    } catch (e) {
-      log(e.toString());
-    }
-  }
 }
