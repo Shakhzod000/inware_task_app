@@ -42,7 +42,7 @@ class _TechnicalProductsState extends State<TechnicalProducts> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final data = snapshot.data![index];
-                        return data.type == "Techniques"
+                        return data.type == "Texnikalar"
                             ? ProductCard(
                                 product: snapshot.data![index],
                                 onPressedEdit: () async {

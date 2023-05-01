@@ -4,19 +4,19 @@ import 'package:inware_task_app/model/product_model.dart';
 import 'package:inware_task_app/screens/create_product.dart';
 import 'package:inware_task_app/widgets/product_card.dart';
 
-class FoodProducts extends StatefulWidget {
-  const FoodProducts({super.key});
+class CerealProducts extends StatefulWidget {
+  const CerealProducts({super.key});
 
   @override
-  State<FoodProducts> createState() => _FoodProductsState();
+  State<CerealProducts> createState() => _CerealProductsState();
 }
 
-class _FoodProductsState extends State<FoodProducts> {
+class _CerealProductsState extends State<CerealProducts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Food products'),
+        title: const Text('Cereal products'),
         centerTitle: true,
       ),
       backgroundColor: const Color(0xFFf2f2f2),
@@ -42,7 +42,7 @@ class _FoodProductsState extends State<FoodProducts> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         final data = snapshot.data![index];
-                        return data.type == "Food products"
+                        return data.type == "Don maxsulotlari" 
                             ? ProductCard(
                                 product: snapshot.data![index],
                                 onPressedEdit: () async {

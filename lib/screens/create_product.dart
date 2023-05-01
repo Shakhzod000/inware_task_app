@@ -24,22 +24,15 @@ class CreateProduct extends StatefulWidget {
 class _CreateProductState extends State<CreateProduct> {
   File? imageFile;
   final PickImage pickImage = PickImage();
-  String? typeItemValue;
   String? pcItemValue;
-  List<String?> typeItems = [
-    'Food products',
-    'Water products',
-    'Techniques',
-    'Cereal products',
-    'Household items',
-  ];
+
   List<String?> pcItem = [
     'kg',
     'liter',
     'gramm',
     'piece',
   ];
-
+  final TextEditingController typeController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController costController = TextEditingController();
   final TextEditingController numberController = TextEditingController();
@@ -172,6 +165,16 @@ class _CreateProductState extends State<CreateProduct> {
                     hinText: 'Enter the number'),
                 const SizedBox(height: 15),
                 const Text(
+                  'Create type',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 5),
+                InputTextField(
+                  hinText: 'Type here.....',
+                  textEditingController: typeController,
+                ),
+                const SizedBox(height: 15),
+                const Text(
                   'Select an amount',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 ),
@@ -189,25 +192,6 @@ class _CreateProductState extends State<CreateProduct> {
                         pcItemValue = value;
                       });
                     }),
-                const SizedBox(height: 15),
-                const Text(
-                  'Create type',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 5),
-                DropdownButton<String>(
-                    onTap: () {},
-                    hint: const Text('Select type'),
-                    value: typeItemValue,
-                    items: typeItems.map((String? value) {
-                      return DropdownMenuItem(
-                          value: value, child: Text(value!));
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        typeItemValue = value;
-                      });
-                    }),
                 const SizedBox(height: 20),
                 Align(
                   alignment: Alignment.centerRight,
@@ -219,10 +203,12 @@ class _CreateProductState extends State<CreateProduct> {
                           final cost = costController.value.text;
                           final number = numberController.value.text;
                           final image = imageFile;
+                          final type = typeController.text;
 
                           if (name.isEmpty ||
                               cost.isEmpty ||
                               image == null ||
+                              type.isEmpty ||
                               number.isEmpty) {
                             return;
                           }
@@ -234,7 +220,7 @@ class _CreateProductState extends State<CreateProduct> {
                               name: name,
                               number: number,
                               imageUrl: image.path,
-                              type: typeItemValue);
+                              type: type);
 
                           if (widget.product == null) {
                             await DbService.addProduct(model);

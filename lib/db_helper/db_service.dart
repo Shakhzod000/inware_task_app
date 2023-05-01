@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:inware_task_app/model/product_model.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
-import 'package:uuid/uuid.dart';
 
 class DbService {
   static const int _version = 4;
@@ -44,7 +45,7 @@ class DbService {
       final db = await _getDbService();
       return await db.update('ProductModel', product.toJson(),
           where: "id = ?",
-          whereArgs: [product.id == const Uuid().v1()],
+          whereArgs: [product.id],
           conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e) {
       if (kDebugMode) {
@@ -86,5 +87,19 @@ class DbService {
       }
     }
     return null;
+  }
+
+  static Future<ProductModel?> getProduct(ProductModel productModel) async {
+    try {
+      final db = await _getDbService();
+      final data = await db.query('ProductModel',
+      where: 'type = ?',
+      whereArgs: [productModel.type],
+      
+      );
+      
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }

@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:inware_task_app/db_helper/db_service.dart';
 import 'package:inware_task_app/model/product_model.dart';
-import 'package:inware_task_app/screens/categoty_widgets/cereal_products.dart';
-import 'package:inware_task_app/screens/categoty_widgets/home_products.dart';
-import 'package:inware_task_app/screens/categoty_widgets/food_products.dart';
-import 'package:inware_task_app/screens/categoty_widgets/technical_products.dart';
-import 'package:inware_task_app/screens/categoty_widgets/waters_products.dart';
+import 'package:inware_task_app/screens/categoty_widgets/don_maxsulotlari.dart';
+import 'package:inware_task_app/screens/categoty_widgets/ovqat_maxsulotlari.dart';
+import 'package:inware_task_app/screens/categoty_widgets/ichimliklar.dart';
+import 'package:inware_task_app/screens/categoty_widgets/texnika_maxsulotlari.dart';
+import 'package:inware_task_app/screens/categoty_widgets/uy_maxsulotlari.dart';
 import 'package:inware_task_app/screens/create_product.dart';
 import 'package:inware_task_app/screens/search_screen.dart';
 import 'package:inware_task_app/widgets/category_card.dart';
@@ -63,35 +63,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 children: [
                   CategoryCard(
-                    text: 'Food products',
+                    text: 'Ovqat maxsulotlari',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => const FoodProducts()));
                     },
                   ),
                   CategoryCard(
-                    text: 'Water products',
+                    text: 'Ichimliklar',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => const WatersProducts()));
                     },
                   ),
                   CategoryCard(
-                    text: 'Techniques',
+                    text: 'Texnikalar',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => const TechnicalProducts()));
                     },
                   ),
                   CategoryCard(
-                    text: 'Household items',
+                    text: 'Uy maxsulotlari',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => const HomeProducts()));
                     },
                   ),
                   CategoryCard(
-                    text: 'Cereal products',
+                    text: 'Don maxsulotlari',
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => const CerealProducts()));
